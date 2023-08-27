@@ -1,22 +1,12 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+/* eslint-disable react/prop-types */
+import { useEffect, useMemo, useRef, useState } from "react";
 import Header from "../components/Header";
 import { styled } from "@mui/joy/styles";
 import Sheet from "@mui/joy/Sheet";
 import Grid from "@mui/joy/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-// import Button from "@mui/joy/Button";
-import IconButton from "@mui/material/IconButton";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import ZoomInIcon from "@mui/icons-material/ZoomIn";
-import ZoomOutIcon from "@mui/icons-material/ZoomOut";
-// import IconButton from "@mui/joy/IconButton";
-// import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import { green } from "@material-ui/core/colors";
-import { grey } from "@mui/material/colors";
 import "../styles/analysis.css";
-import { Input, OutlinedInput, TextField } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import WebViewer from "@pdftron/webviewer";
@@ -25,10 +15,10 @@ const Analysis = () => {
     const viewer = useRef(null);
 
     const { state: file } = useLocation()
-    const [chathistory, setChathistory] = useState([])
+    const [chathistory, setChathistory] = useState([]);
 
 
-    const fileBlob = new Blob([file], { type: 'application/pdf' })
+    const fileBlob = useMemo(()=>new Blob([file], { type: 'application/pdf' }),[file])
     const url = URL.createObjectURL(fileBlob)
     console.log(fileBlob)
 
@@ -42,12 +32,6 @@ const Analysis = () => {
         color: theme.vars.palette.text.secondary,
     }));
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        const data = await axios.get(`http://localhost:8000/query?query_string=${'Summarize this'}`)
-        // console.log(data)
-        setResponse(data);
-    }
     const updateHistroy = (data) => {
         setChathistory(data)
     }
@@ -87,8 +71,6 @@ const Analysis = () => {
                 sx={{ flexGrow: 1 }}
             >
                 <Grid
-                    // sx={{ background: "green" }}
-                    // sx={{ background: "green" }}
                     xs={8}
                 >
                     <Item>
@@ -101,89 +83,7 @@ const Analysis = () => {
                             </Button>
                         </div>
                     </Item>
-                    {/* <Item>
-                        <div style={{ display: "flex", alignItems: "center" }}>
-                            <Button sx={{ my: 1, mx: 1.5 }} variant="text">
-                                Summary
-                            </Button>
-
-                            <Button sx={{ my: 1 }} variant="text">
-                                Viewer
-                            </Button>
-
-                            <Button
-                                color="secondary"
-                                sx={{ my: 1, p: 0.3 }}
-                                style={{
-                                    marginLeft: "auto",
-                                    color: "#000000",
-                                    borderColor: "#757575",
-                                }}
-                                variant="outlined"
-                            >
-                                <b>1</b>
-                            </Button>
-
-                            <Button
-                                color="secondary"
-                                sx={{
-                                    my: 1,
-                                    p: 0.3,
-                                    ml: 1,
-                                    color: grey[600],
-                                    borderColor: grey[600],
-                                }}
-                                variant="outlined"
-                            >
-                                <KeyboardArrowUpIcon />
-                            </Button>
-
-                            <Button
-                                color="secondary"
-                                // sx={{ my: 1}}
-                                sx={{ my: 1, p: 0.3, color: grey[600], borderColor: grey[600] }}
-                                variant="outlined"
-                            >
-                                <KeyboardArrowDownIcon />
-                            </Button>
-
-                            <Button
-                                color="secondary"
-                                // sx={{ my: 1}}
-                                sx={{
-                                    my: 1,
-                                    p: 0.3,
-                                    ml: 2,
-                                    color: grey[600],
-                                    borderColor: grey[600],
-                                }}
-                                variant="outlined"
-                            >
-                                <ZoomInIcon />
-                            </Button>
-
-                            <Button
-                                color="secondary"
-                                // sx={{ my: 1}}
-                                sx={{
-                                    my: 1,
-                                    p: 0.3,
-                                    color: grey[600],
-                                    borderColor: grey[600],
-                                }}
-                                variant="outlined"
-                            >
-                                <ZoomOutIcon />
-                            </Button>
-                        </div>
-                    </Item> */}
                     <Item>
-                        {/* <iframe
-                            src={`${url}#toolbar=0`}
-                            // src="/210120702006_Vatsal.pdf"
-                            width="100%"
-                            height="600px"
-                        /> */}
                         <div className="webviewer" ref={viewer} style={{ height: "100vh" }}></div>
                     </Item>
                 </Grid>
@@ -228,7 +128,7 @@ const Analysis = () => {
                                         </>
                                     )
                                 })}
-                            </div >
+                            </div>
                             <div
                                 style={{
                                     display: "flex",
@@ -303,7 +203,7 @@ const Analysis = () => {
                         </div>
                     </Item>
                 </Grid>
-            </Grid >
+            </Grid>
         </>
     );
 };
@@ -374,4 +274,3 @@ const AskQuestion = (props) => {
         </div>
     )
 }
-
