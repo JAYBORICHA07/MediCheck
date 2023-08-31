@@ -67,3 +67,9 @@ so to solve this problem we are providing a solution to that called MediCheck. A
 - *FastAPI:* A runtime environment for quick and scalable server-side execution.
 - *Qdrant:* A powerful, open-source vector database system.
 - *pydantic* A platform which provides a base model for training.
+
+## Photoes
+
+![Alt text](img/i1.jpeg)
+
+![Alt text](img/i2.jpeg)
